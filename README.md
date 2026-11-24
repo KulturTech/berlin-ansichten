@@ -28,8 +28,10 @@ In VS Code: *Python: Select Interpreter* -> `.venv`.
 - Auswahl über Commons-Kategorien erzeugt eigene Verzerrungen (Mitte/Wahrzeichen überrepräsentiert, Medium, Lizenz). Genau das im Report benennen.
 - Lizenzen pro Bild stehen in `metadata.csv`; bei Weitergabe des Korpus Lizenzbedingungen beachten.
 
-## Noch zu ergänzen
-Data Card, Model Card.
+## Projektkarten
+
+- [Data Card](DATA_CARD.md): Herkunft, Aufbau und Grenzen des Bildkorpus.
+- [Model Card](MODEL_CARD.md): Modell, Auswertung und bekannte Einschränkungen.
 
 ## Zitieren
 
