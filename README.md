@@ -29,7 +29,12 @@ In VS Code: *Python: Select Interpreter* -> `.venv`.
 - Lizenzen pro Bild stehen in `metadata.csv`; bei Weitergabe des Korpus Lizenzbedingungen beachten.
 
 ## Noch zu ergänzen
-Data Card, Model Card, `CITATION.cff`.
+Data Card, Model Card.
+
+## Zitieren
+
+Zitationsangaben stehen in [`CITATION.cff`](CITATION.cff). Ersetze dort
+`Vorname` und `Nachname` durch deinen Namen oder die gewünschte Zitierform.
 
 ## Lizenz
 

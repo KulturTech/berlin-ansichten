@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this project, please cite it as below."
+title: "Berlin-Ansichten: Mini-Pipeline"
+type: software
+authors:
+  - family-names: "Gomes"
+    given-names: "Sera Ria"
+license: MIT
