@@ -34,6 +34,10 @@ def embed_images(paths, model, proc, dev, bs=16):
         x = proc(images=imgs, return_tensors="pt").to(dev)
         with torch.no_grad():
             f = model.get_image_features(**x)
+        if hasattr(f, "pooler_output"):
+            f = f.pooler_output
+        elif hasattr(f, "image_embeds"):
+            f = f.image_embeds
         feats.append(torch.nn.functional.normalize(f, dim=-1).cpu().numpy())
     return np.concatenate(feats)
 
@@ -44,16 +48,31 @@ def main():
     proc = CLIPProcessor.from_pretrained(MODEL)
 
     df = pd.read_csv(METADATA_CSV).dropna(subset=["epoch"]).reset_index(drop=True)
+    counts = df["epoch"].value_counts()
+    usable = counts[counts >= 2].index
+    excluded = counts[counts < 2]
+    if not excluded.empty:
+        print("Excluding sparse classes:", excluded.to_dict())
+    df = df[df["epoch"].isin(usable)].reset_index(drop=True)
     print(df["epoch"].value_counts())
     X = embed_images([IMAGES / f for f in df["local_file"]], model, proc, dev)
     y = df["epoch"].values
-    idx_tr, idx_te = train_test_split(np.arange(len(df)), test_size=0.3, stratify=y, random_state=0)
+    _, counts = np.unique(y, return_counts=True)
+    stratify = y if counts.min() >= 2 else None
+    idx_tr, idx_te = train_test_split(
+        np.arange(len(df)), test_size=0.3, stratify=stratify, random_state=0
+    )
 
     # zero-shot
     classes = [e[0] for e in EPOCHS]
     t = proc(text=[PROMPT_TEXT[c] for c in classes], return_tensors="pt", padding=True).to(dev)
     with torch.no_grad():
-        T = torch.nn.functional.normalize(model.get_text_features(**t), dim=-1).cpu().numpy()
+        f = model.get_text_features(**t)
+        if hasattr(f, "pooler_output"):
+            f = f.pooler_output
+        elif hasattr(f, "text_embeds"):
+            f = f.text_embeds
+        T = torch.nn.functional.normalize(f, dim=-1).cpu().numpy()
     zs_pred = np.array(classes)[(X[idx_te] @ T.T).argmax(1)]
 
     # linear probe
