@@ -22,7 +22,7 @@ In VS Code: *Python: Select Interpreter* -> `.venv`.
 4. Klassifikation: `python src/train_probe.py` -> `results/metrics.json`, `results/predictions.csv`.
 5. Bias-Report: `python src/bias_report.py` -> `results/bias_tables.md` + Plots.
 
-## Methodische Hinweise (für die Dokumentation ehrlich festhalten)
+## Methodische Hinweise
 - Commons-Datierung = Aufnahmedatum der Datei, nicht zwingend die dargestellte Zeit (z. B. Foto eines Gemäldes). Epochenlabels stichprobenartig prüfen.
 - Kleine Stichprobe: Test-Split ist klein, Ergebnisse als Tendenz lesen, Unsicherheit angeben.
 - Auswahl über Commons-Kategorien erzeugt eigene Verzerrungen (Mitte/Wahrzeichen überrepräsentiert, Medium, Lizenz). Genau das im Report benennen.
