@@ -24,9 +24,13 @@ FREE = re.compile(r"(CC|Public domain|PD|GFDL)", re.I)
 
 def api(params):
     params = {"format": "json", "formatversion": "2", **params}
-    r = requests.get(API, params=params, headers=HEADERS, timeout=30)
-    r.raise_for_status()
-    return r.json()
+    for attempt in range(3):
+        r = requests.get(API, params=params, headers=HEADERS, timeout=30)
+        if r.status_code in (429, 500, 502, 503, 504) and attempt < 2:
+            time.sleep(2 * (attempt + 1))
+            continue
+        r.raise_for_status()
+        return r.json()
 
 
 def subcategories(cat):
@@ -94,10 +98,15 @@ def download(row):
     ext = ".png" if row["image_url"].lower().endswith(".png") else ".jpg"
     path = IMAGES / (re.sub(r"[^\w.-]", "_", row["file_id"])[:120] + ext)
     if not path.exists():
-        r = requests.get(row["image_url"], headers=HEADERS, timeout=60)
-        r.raise_for_status()
-        path.write_bytes(r.content)
-        time.sleep(0.5)  # be polite
+        for attempt in range(3):
+            r = requests.get(row["image_url"], headers=HEADERS, timeout=60)
+            if r.status_code in (429, 500, 502, 503, 504) and attempt < 2:
+                time.sleep(2 * (attempt + 1))
+                continue
+            r.raise_for_status()
+            path.write_bytes(r.content)
+            time.sleep(0.5)  # be polite
+            break
     return path.name
 
 
@@ -129,12 +138,17 @@ def main():
         print(f"{cat}: {len(rows)} kept so far")
 
     new = pd.DataFrame(rows)
-    if METADATA_CSV.exists():
-        old = pd.read_csv(METADATA_CSV)
-        new = pd.concat([old, new]).drop_duplicates("file_id", keep="first")
+    if METADATA_CSV.exists() and METADATA_CSV.stat().st_size > 0:
+        try:
+            old = pd.read_csv(METADATA_CSV)
+        except pd.errors.EmptyDataError:
+            old = None
+        if old is not None:
+            new = pd.concat([old, new]).drop_duplicates("file_id", keep="first")
     new.to_csv(METADATA_CSV, index=False)
     print(f"{len(new)} images in {METADATA_CSV}")
-    print(new["epoch"].value_counts(dropna=False))
+    if "epoch" in new.columns:
+        print(new["epoch"].value_counts(dropna=False))
 
 
 if __name__ == "__main__":
