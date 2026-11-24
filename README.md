@@ -33,8 +33,7 @@ Data Card, Model Card.
 
 ## Zitieren
 
-Zitationsangaben stehen in [`CITATION.cff`](CITATION.cff). Ersetze dort
-`Vorname` und `Nachname` durch deinen Namen oder die gewünschte Zitierform.
+Zitationsangaben stehen in [`CITATION.cff`](CITATION.cff). 
 
 ## Lizenz
 
