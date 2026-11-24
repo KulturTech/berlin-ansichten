@@ -29,4 +29,19 @@ In VS Code: *Python: Select Interpreter* -> `.venv`.
 - Lizenzen pro Bild stehen in `metadata.csv`; bei Weitergabe des Korpus Lizenzbedingungen beachten.
 
 ## Noch zu ergänzen
-Data Card, Model Card, `CITATION.cff`, Lizenz fürs Repo.
+Data Card, Model Card, `CITATION.cff`.
+
+## Lizenz
+
+- Der Quellcode dieses Repositoriums steht unter der [MIT-Lizenz](LICENSE).
+- Die README-Dokumentation steht, sofern nicht anders gekennzeichnet, unter
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.de).
+- Die annotierten Metadaten und Annotationsausgaben stehen unter
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.de), sofern nicht
+  anders gekennzeichnet.
+- Die über Wikimedia Commons bezogenen Bilder sind nicht durch die Lizenz dieses
+  Repositoriums abgedeckt. Für jede Datei gelten die in `data/metadata.csv`
+  dokumentierten Lizenz- und Attributionangaben.
+- Das verwendete CLIP-Modell und daraus abgeleitete Modelle haben eigene
+  Nutzungsbedingungen; ihre Lizenz muss bei Weitergabe gesondert berücksichtigt
+  werden.
