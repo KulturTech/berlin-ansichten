@@ -1,0 +1,39 @@
+<View>
+  <Image name="image" value="$image" zoom="true"/>
+
+  <Header value="Epoche (Bildinhalt/Darstellungszeit)"/>
+  <Choices name="epoch" toName="image" choice="single" showInline="true">
+    <Choice value="vor_1900"/>
+    <Choice value="1900_1945"/>
+    <Choice value="1946_1989"/>
+    <Choice value="ab_1990"/>
+    <Choice value="unsicher"/>
+  </Choices>
+
+  <Header value="Medium"/>
+  <Choices name="medium" toName="image" choice="single" showInline="true">
+    <Choice value="foto"/>
+    <Choice value="gemaelde"/>
+    <Choice value="druck_grafik"/>
+    <Choice value="karte_plan"/>
+    <Choice value="sonstiges"/>
+  </Choices>
+
+  <Header value="Motive"/>
+  <Choices name="motifs" toName="image" choice="multiple" showInline="true">
+    <Choice value="strasse"/>
+    <Choice value="gebaeude"/>
+    <Choice value="fahrzeug"/>
+    <Choice value="person"/>
+    <Choice value="wasser"/>
+    <Choice value="vegetation"/>
+    <Choice value="denkmal_wahrzeichen"/>
+  </Choices>
+
+  <Header value="Optional: Segmentierung"/>
+  <PolygonLabels name="seg" toName="image">
+    <Label value="strasse" background="#888888"/>
+    <Label value="gebaeude" background="#aa5533"/>
+    <Label value="fahrzeug" background="#3355aa"/>
+  </PolygonLabels>
+</View>
